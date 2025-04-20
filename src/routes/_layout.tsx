@@ -57,7 +57,12 @@ const createPages = (pathname: string) => {
           label: "Compare Texts",
           to: '/compare-texts',
           isActive: pathname === '/compare-texts',
-        }
+        },
+        {
+          label: "Convert Youtube Url",
+          to: '/convert-youtube-url',
+          isActive: pathname === '/convert-youtube-url',
+        },
       ]
     }
   ];

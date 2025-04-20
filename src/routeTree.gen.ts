@@ -18,6 +18,9 @@ import { Route as LayoutImport } from './routes/_layout'
 // Create Virtual Routes
 
 const LayoutIndexLazyImport = createFileRoute('/_layout/')()
+const LayoutConvertYoutubeUrlLazyImport = createFileRoute(
+  '/_layout/convert-youtube-url',
+)()
 const LayoutCompareTextsLazyImport = createFileRoute('/_layout/compare-texts')()
 
 // Create/Update Routes
@@ -32,6 +35,15 @@ const LayoutIndexLazyRoute = LayoutIndexLazyImport.update({
   path: '/',
   getParentRoute: () => LayoutRoute,
 } as any).lazy(() => import('./routes/_layout.index.lazy').then((d) => d.Route))
+
+const LayoutConvertYoutubeUrlLazyRoute =
+  LayoutConvertYoutubeUrlLazyImport.update({
+    id: '/convert-youtube-url',
+    path: '/convert-youtube-url',
+    getParentRoute: () => LayoutRoute,
+  } as any).lazy(() =>
+    import('./routes/_layout.convert-youtube-url.lazy').then((d) => d.Route),
+  )
 
 const LayoutCompareTextsLazyRoute = LayoutCompareTextsLazyImport.update({
   id: '/compare-texts',
@@ -59,6 +71,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutCompareTextsLazyImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/convert-youtube-url': {
+      id: '/_layout/convert-youtube-url'
+      path: '/convert-youtube-url'
+      fullPath: '/convert-youtube-url'
+      preLoaderRoute: typeof LayoutConvertYoutubeUrlLazyImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/': {
       id: '/_layout/'
       path: '/'
@@ -73,11 +92,13 @@ declare module '@tanstack/react-router' {
 
 interface LayoutRouteChildren {
   LayoutCompareTextsLazyRoute: typeof LayoutCompareTextsLazyRoute
+  LayoutConvertYoutubeUrlLazyRoute: typeof LayoutConvertYoutubeUrlLazyRoute
   LayoutIndexLazyRoute: typeof LayoutIndexLazyRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutCompareTextsLazyRoute: LayoutCompareTextsLazyRoute,
+  LayoutConvertYoutubeUrlLazyRoute: LayoutConvertYoutubeUrlLazyRoute,
   LayoutIndexLazyRoute: LayoutIndexLazyRoute,
 }
 
@@ -87,11 +108,13 @@ const LayoutRouteWithChildren =
 export interface FileRoutesByFullPath {
   '': typeof LayoutRouteWithChildren
   '/compare-texts': typeof LayoutCompareTextsLazyRoute
+  '/convert-youtube-url': typeof LayoutConvertYoutubeUrlLazyRoute
   '/': typeof LayoutIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/compare-texts': typeof LayoutCompareTextsLazyRoute
+  '/convert-youtube-url': typeof LayoutConvertYoutubeUrlLazyRoute
   '/': typeof LayoutIndexLazyRoute
 }
 
@@ -99,15 +122,21 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_layout': typeof LayoutRouteWithChildren
   '/_layout/compare-texts': typeof LayoutCompareTextsLazyRoute
+  '/_layout/convert-youtube-url': typeof LayoutConvertYoutubeUrlLazyRoute
   '/_layout/': typeof LayoutIndexLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/compare-texts' | '/'
+  fullPaths: '' | '/compare-texts' | '/convert-youtube-url' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/compare-texts' | '/'
-  id: '__root__' | '/_layout' | '/_layout/compare-texts' | '/_layout/'
+  to: '/compare-texts' | '/convert-youtube-url' | '/'
+  id:
+    | '__root__'
+    | '/_layout'
+    | '/_layout/compare-texts'
+    | '/_layout/convert-youtube-url'
+    | '/_layout/'
   fileRoutesById: FileRoutesById
 }
 
@@ -136,11 +165,16 @@ export const routeTree = rootRoute
       "filePath": "_layout.tsx",
       "children": [
         "/_layout/compare-texts",
+        "/_layout/convert-youtube-url",
         "/_layout/"
       ]
     },
     "/_layout/compare-texts": {
       "filePath": "_layout.compare-texts.lazy.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/convert-youtube-url": {
+      "filePath": "_layout.convert-youtube-url.lazy.tsx",
       "parent": "/_layout"
     },
     "/_layout/": {

@@ -38,6 +38,7 @@ const tools: Tool[] = [
   // { id: 5, name: 'Cron Builder', icon: <ClockIcon className="h-6 w-6" />, description: 'Easily create and verify cron expressions', category: 'Utilities' },
   // { id: 6, name: 'HTTP Status Codes', icon: <TerminalIcon className="h-6 w-6" />, description: 'Complete list of HTTP status codes', category: 'Web' },
   { id: 7, to: "/compare-texts", name: "Compare Multiple Texts", category: 'Text', icon: <SettingsIcon className="h-6 w-6" />, description: 'Compare multiple texts horizontally, giving a single JSON input and definig where each text is inside the JSON (with a path in lodash.get format).', usefulFor: ['Compare LLM responses'] },
+  { id: 8, to: "/convert-youtube-url", name: "Convert Youtube Url", category: 'Text', icon: <SettingsIcon className="h-6 w-6" />, description: 'Convert any youtube url type (youtube.be,...) into standard youtube url (watch?=id).', usefulFor: ['Youtube link'] },
 ];
 const toolsCategories = [...new Set(tools.map(tool => tool.category))];
 
@@ -171,7 +172,7 @@ function RouteComponent() {
 
 const ToolCard = ({ tool }: { tool: Tool; }) => {
   return (
-    <div className="relative bg-white dark:bg-neutral-900/60 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-neutral-200 dark:border-neutral-700 cursor-pointer">
+    <div className="relative flex flex-col bg-white dark:bg-neutral-900/60 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-neutral-200 dark:border-neutral-700 cursor-pointer">
       <div className="flex items-center">
         <div className="p-2 bg-neutral-100 dark:bg-neutral-800 rounded-md">
           {tool.icon}
@@ -182,7 +183,7 @@ const ToolCard = ({ tool }: { tool: Tool; }) => {
       {/* <span className="inline-block mt-2 px-2 py-1 text-xs font-medium bg-neutral-100 dark:bg-neutral-700 rounded">
         {tool.category}
       </span> */}
-      <div className='mt-6'>
+      <div className='mt-auto pt-6'>
         <span className='text-[0.6rem] uppercase text-muted-foreground'>Useful for: </span>
         <div className='mt-1 w-full flex gap-2 overflow-x-auto'>
           {tool.usefulFor.map((usefulFor, index) => (
