@@ -63,6 +63,11 @@ const createPages = (pathname: string) => {
           to: '/convert-youtube-url',
           isActive: pathname === '/convert-youtube-url',
         },
+        {
+          label: "Meme Generator",
+          to: '/meme-generator',
+          isActive: pathname === '/meme-generator',
+        },
       ]
     }
   ];

@@ -18,6 +18,9 @@ import { Route as LayoutImport } from './routes/_layout'
 // Create Virtual Routes
 
 const LayoutIndexLazyImport = createFileRoute('/_layout/')()
+const LayoutMemeGeneratorLazyImport = createFileRoute(
+  '/_layout/meme-generator',
+)()
 const LayoutConvertYoutubeUrlLazyImport = createFileRoute(
   '/_layout/convert-youtube-url',
 )()
@@ -35,6 +38,14 @@ const LayoutIndexLazyRoute = LayoutIndexLazyImport.update({
   path: '/',
   getParentRoute: () => LayoutRoute,
 } as any).lazy(() => import('./routes/_layout.index.lazy').then((d) => d.Route))
+
+const LayoutMemeGeneratorLazyRoute = LayoutMemeGeneratorLazyImport.update({
+  id: '/meme-generator',
+  path: '/meme-generator',
+  getParentRoute: () => LayoutRoute,
+} as any).lazy(() =>
+  import('./routes/_layout.meme-generator.lazy').then((d) => d.Route),
+)
 
 const LayoutConvertYoutubeUrlLazyRoute =
   LayoutConvertYoutubeUrlLazyImport.update({
@@ -78,6 +89,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutConvertYoutubeUrlLazyImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/meme-generator': {
+      id: '/_layout/meme-generator'
+      path: '/meme-generator'
+      fullPath: '/meme-generator'
+      preLoaderRoute: typeof LayoutMemeGeneratorLazyImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/': {
       id: '/_layout/'
       path: '/'
@@ -93,12 +111,14 @@ declare module '@tanstack/react-router' {
 interface LayoutRouteChildren {
   LayoutCompareTextsLazyRoute: typeof LayoutCompareTextsLazyRoute
   LayoutConvertYoutubeUrlLazyRoute: typeof LayoutConvertYoutubeUrlLazyRoute
+  LayoutMemeGeneratorLazyRoute: typeof LayoutMemeGeneratorLazyRoute
   LayoutIndexLazyRoute: typeof LayoutIndexLazyRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutCompareTextsLazyRoute: LayoutCompareTextsLazyRoute,
   LayoutConvertYoutubeUrlLazyRoute: LayoutConvertYoutubeUrlLazyRoute,
+  LayoutMemeGeneratorLazyRoute: LayoutMemeGeneratorLazyRoute,
   LayoutIndexLazyRoute: LayoutIndexLazyRoute,
 }
 
@@ -109,12 +129,14 @@ export interface FileRoutesByFullPath {
   '': typeof LayoutRouteWithChildren
   '/compare-texts': typeof LayoutCompareTextsLazyRoute
   '/convert-youtube-url': typeof LayoutConvertYoutubeUrlLazyRoute
+  '/meme-generator': typeof LayoutMemeGeneratorLazyRoute
   '/': typeof LayoutIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/compare-texts': typeof LayoutCompareTextsLazyRoute
   '/convert-youtube-url': typeof LayoutConvertYoutubeUrlLazyRoute
+  '/meme-generator': typeof LayoutMemeGeneratorLazyRoute
   '/': typeof LayoutIndexLazyRoute
 }
 
@@ -123,19 +145,26 @@ export interface FileRoutesById {
   '/_layout': typeof LayoutRouteWithChildren
   '/_layout/compare-texts': typeof LayoutCompareTextsLazyRoute
   '/_layout/convert-youtube-url': typeof LayoutConvertYoutubeUrlLazyRoute
+  '/_layout/meme-generator': typeof LayoutMemeGeneratorLazyRoute
   '/_layout/': typeof LayoutIndexLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/compare-texts' | '/convert-youtube-url' | '/'
+  fullPaths:
+    | ''
+    | '/compare-texts'
+    | '/convert-youtube-url'
+    | '/meme-generator'
+    | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/compare-texts' | '/convert-youtube-url' | '/'
+  to: '/compare-texts' | '/convert-youtube-url' | '/meme-generator' | '/'
   id:
     | '__root__'
     | '/_layout'
     | '/_layout/compare-texts'
     | '/_layout/convert-youtube-url'
+    | '/_layout/meme-generator'
     | '/_layout/'
   fileRoutesById: FileRoutesById
 }
@@ -166,6 +195,7 @@ export const routeTree = rootRoute
       "children": [
         "/_layout/compare-texts",
         "/_layout/convert-youtube-url",
+        "/_layout/meme-generator",
         "/_layout/"
       ]
     },
@@ -175,6 +205,10 @@ export const routeTree = rootRoute
     },
     "/_layout/convert-youtube-url": {
       "filePath": "_layout.convert-youtube-url.lazy.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/meme-generator": {
+      "filePath": "_layout.meme-generator.lazy.tsx",
       "parent": "/_layout"
     },
     "/_layout/": {
